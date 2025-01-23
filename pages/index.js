@@ -52,11 +52,11 @@ const Home = () => {
       <Navbar />
       <main className="flex items-center justify-center h-screen">
         <div className="text-center">
-          <h1 className="text-5xl font-bold mb-4">
+          <h1 className="text-6xl font-bold mb-4">
             {nameText}
             {isTypingName && <span className="cursor"></span>}
           </h1>
-          <h2 className="text-2xl font-medium">
+          <h2 className="text-4xl font-medium">
             {titleText}
             {isTypingTitle && <span className="cursor"></span>}
           </h2>
