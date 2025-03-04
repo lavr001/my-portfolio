@@ -105,8 +105,8 @@ const Skills = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
-        <h1 className="text-4xl font-bold mb-8" ref={headingRef}>
+      <main className="min-h-screen bg-black text-white flex flex-col items-center p-4 pt-16">
+        <h1 className="text-4xl font-bold my-8" ref={headingRef}>
           {splitWord("Skills")}
         </h1>
 
