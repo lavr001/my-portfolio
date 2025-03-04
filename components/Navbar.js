@@ -13,7 +13,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav className="fixed top-0 left-0 bg-black shadow">
+    <nav className="fixed top-0 left-0 right-0 w-full h-16 bg-black flex items-center px-4 z-10">
       <ul className="flex space-x-4 p-8 text-white">
         {navItems.map((item) => (
           <li key={item.name}>
