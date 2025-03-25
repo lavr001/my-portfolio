@@ -91,7 +91,7 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <main className="overflow-y-auto bg-black text-white p-4 pt-[64px] max-h-[calc(100vh-64px)]">
+      <main className="overflow-y-auto bg-black text-white relative top-[64px] min-h-[calc(100vh-64px)]">
         <h1 className="text-4xl font-bold my-8 text-center" ref={headingRef}>
           {splitWord("About")}
         </h1>

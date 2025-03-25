@@ -19,7 +19,7 @@ const Navbar = () => {
           <li key={item.name}>
             <Link
               href={item.href}
-              className={`mr-4 hover:text-gray-300 ${
+              className={`px-4 py-2 transition-colors duration-300 hover:bg-white hover:text-black hover:scale-105 hover:shadow-md rounded-md ${
                 router.pathname === item.href
                   ? "underline underline-offset-4 decoration-2 decoration-white"
                   : ""

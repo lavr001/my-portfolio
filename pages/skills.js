@@ -105,11 +105,12 @@ const Skills = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-black text-white flex flex-col items-center p-4 pt-16">
-        <h1 className="text-4xl font-bold my-8" ref={headingRef}>
+      <main className="overflow-y-auto bg-black text-white relative top-[64px] min-h-[calc(100vh-64px)]">
+
+        <h1 className="text-4xl font-bold my-8 text-center" ref={headingRef}>
           {splitWord("Skills")}
         </h1>
-
+        <div className="flex flex-col items-center justify-center min-h-full p-4">
         <div ref={logosRef} className="grid grid-cols-2 sm:grid-cols-4 gap-8">
           {skillsData.map((skill) => (
             <div key={skill.name} className="flex flex-col items-center">
@@ -122,6 +123,7 @@ const Skills = () => {
             </div>
           ))}
         </div>
+      </div>
       </main>
     </>
   );

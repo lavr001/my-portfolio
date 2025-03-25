@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <main className="flex items-center justify-center h-screen">
+      <main className="flex items-center justify-center relative top-[64px] h-[calc(100vh-64px)]">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-4">
             {nameText}
