@@ -91,8 +91,8 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <main className="overflow-y-auto bg-black text-white p-8 relative top-[64px] h-[calc(100vh-64px)]">
-        <h1 className="text-4xl font-bold my-8 text-center" ref={headingRef}>
+      <main className="overflow-y-auto bg-black text-white p-8 relative top-[64px] h-[calc(100vh-64px)] [padding-bottom:env(safe-area-inset-bottom)]">
+        <h1 className="text-4xl font-bold mb-8 text-center" ref={headingRef}>
           {splitWord("About")}
         </h1>
         <div ref={rowsContainerRef} className="max-w-5xl mx-auto space-y-8">

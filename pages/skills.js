@@ -105,9 +105,9 @@ const Skills = () => {
   return (
     <>
       <Navbar />
-      <main className="overflow-y-auto bg-black text-white relative top-[64px] h-[calc(100vh-64px)]">
+      <main className="overflow-y-auto bg-black text-white relative top-[64px] h-[calc(100vh-64px)] [padding-bottom:env(safe-area-inset-bottom)]">
         <div className="flex flex-col items-center justify-center min-h-full p-8">
-        <h1 className="text-4xl font-bold my-8 text-center" ref={headingRef}>
+        <h1 className="text-4xl font-bold mb-8 text-center" ref={headingRef}>
           {splitWord("Skills")}
         </h1>
         <div ref={logosRef} className="grid grid-cols-2 sm:grid-cols-4 gap-8">
