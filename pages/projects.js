@@ -1,0 +1,121 @@
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import Navbar from "../components/Navbar";
+
+const projectSections = [
+  {
+    title: "AWS Code Hike Demo",
+    direction: "left",
+    description:
+      "This prototype demonstrates how AWS Amplify documentation could be enhanced with Code Hike for a more interactive learning experience.",
+    icon: "/logos/amazonwebservices.svg",
+    link: "https://code-hike-demo.vercel.app/",
+  },
+  {
+    title: "Global News",
+    direction: "right",
+    description:
+      "A news application built with React, utilized News API that showcases UI components, responsive design, and accessibility best practices.",
+    icon: "/logos/global.svg",
+    link: "https://news-react-five-zeta.vercel.app/",
+  },
+  {
+    title: "GSAP animated UI components",
+    direction: "left",
+    description:
+      "A CodePen collection showcasing interactive UI components built with HTML5, SCSS, JS and React. These components bring Figma designs to life, demonstrating various states and animations powered by GSAP.",
+    icon: "/logos/codepen.svg",
+    link: "https://codepen.io/collection/XvwjYb",
+  },
+  {
+    title: "Cube Runner Game",
+    direction: "right",
+    description:
+      "Game that I built using Babylon.js, a powerful open-source 3D engine that brings stunning graphics and immersive experiences to the web using WebGL and WebGPU. Dodge the pink obstacles in this fast-paced game! ",
+    icon: "/logos/anycubic.svg",
+    link: "https://cube-runner-lemon.vercel.app/",
+  },
+];
+
+const Projects = () => {
+  const headingRef = useRef(null);
+  const rowsContainerRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    const letters = headingRef.current.querySelectorAll(".letter");
+    tl.fromTo(
+      letters,
+      { opacity: 0, x: -50 },
+      { opacity: 1, x: 0, duration: 0.6, stagger: 0.1 }
+    ).to(
+      letters,
+      { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
+      "+=0.2"
+    );
+
+    const sections = rowsContainerRef.current.querySelectorAll(".section");
+    sections.forEach((section) => {
+      const direction = section.getAttribute("data-direction");
+      const fromX = direction === "left" ? -50 : 50;
+      tl.fromTo(
+        section,
+        { opacity: 0, x: fromX },
+        { opacity: 1, x: 0, duration: 0.6 },
+        ">0.1"
+      );
+    });
+  }, []);
+
+  const splitWord = (word) =>
+    word.split("").map((char, index) => (
+      <span key={index} className="inline-block letter">
+        {char}
+      </span>
+    ));
+
+  return (
+    <>
+      <Navbar />
+      <main className="overflow-y-auto bg-black text-white p-12 relative top-[64px] h-[calc(100vh-64px)] [padding-bottom:env(safe-area-inset-bottom)]">
+        <h1 className="text-4xl font-bold mb-12 text-center" ref={headingRef}>
+          {splitWord("Projects")}
+        </h1>
+        <div ref={rowsContainerRef} className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {projectSections.map((section, idx) => (
+              <div
+                key={idx}
+                className="section border-2 border-white rounded-[8px] p-4"
+                data-direction={section.direction}
+              >
+                <h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
+                <p className="text-gray-300 text-lg md:text-xl">
+                  {section.description}
+                </p>
+                {section.icon && (
+                  <div className="flex justify-center mt-4">
+                    <a
+                      href={section.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={section.icon}
+                        alt={`${section.title} icon`}
+                        className="h-10 w-10"
+                      />
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    </>
+  );
+};
+
+export default Projects;
