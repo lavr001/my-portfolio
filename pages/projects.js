@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Navbar from "../components/Navbar";
+import useVisualViewportHeight from "../hooks/useVisualViewportHeight";
 
 const projectSections = [
   {
@@ -40,6 +41,7 @@ const projectSections = [
 const Projects = () => {
   const headingRef = useRef(null);
   const rowsContainerRef = useRef(null);
+  const viewportHeight = useVisualViewportHeight();
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -78,7 +80,14 @@ const Projects = () => {
   return (
     <>
       <Navbar />
-      <main className="overflow-y-auto bg-black text-white p-12 relative top-[64px] h-[calc(100vh-64px)] [padding-bottom:env(safe-area-inset-bottom)]">
+      <main
+        className="overflow-y-auto bg-black text-white p-12 relative top-[64px] [padding-bottom:env(safe-area-inset-bottom)]"
+        style={{
+          height: viewportHeight
+            ? `${viewportHeight - 64}px`
+            : "calc(100vh - 64px)",
+        }}
+      >
         <h1 className="text-4xl font-bold mb-12 text-center" ref={headingRef}>
           {splitWord("Projects")}
         </h1>
