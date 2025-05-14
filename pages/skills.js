@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Navbar from "../components/Navbar";
+import useVisualViewportHeight from "../hooks/useVisualViewportHeight";
 
 const skillsData = [
   {
@@ -56,6 +57,7 @@ const skillsData = [
 const Skills = () => {
   const headingRef = useRef(null);
   const logosRef = useRef(null);
+  const viewportHeight = useVisualViewportHeight();
 
   useEffect(() => {
     const letters = headingRef.current.querySelectorAll(".letter");
@@ -105,7 +107,14 @@ const Skills = () => {
   return (
     <>
       <Navbar />
-      <main className="overflow-y-auto bg-black text-white relative top-[64px] h-[calc(100vh-64px)] [padding-bottom:env(safe-area-inset-bottom)]">
+      <main
+        className="overflow-y-auto bg-black text-white relative top-[64px] [padding-bottom:env(safe-area-inset-bottom)]"
+        style={{
+          height: viewportHeight
+            ? `${viewportHeight - 64}px`
+            : "calc(100vh - 64px)",
+        }}
+      >
         <div className="flex flex-col items-center min-h-full p-12">
           <h1 className="text-4xl font-bold mb-12 text-center" ref={headingRef}>
             {splitWord("Skills")}

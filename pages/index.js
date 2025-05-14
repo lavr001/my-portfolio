@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import Navbar from "../components/Navbar";
+import useVisualViewportHeight from "../hooks/useVisualViewportHeight";
 
 const Home = () => {
   const [nameText, setNameText] = useState("");
   const [titleText, setTitleText] = useState("");
   const [isTypingName, setIsTypingName] = useState(true);
   const [isTypingTitle, setIsTypingTitle] = useState(false);
+  const viewportHeight = useVisualViewportHeight();
 
   useEffect(() => {
     const myName = "ROMAN";
@@ -50,7 +52,14 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <main className="flex items-center justify-center relative top-[64px] h-[calc(100vh-64px)]">
+      <main
+        className="flex items-center justify-center relative top-[64px]"
+        style={{
+          height: viewportHeight
+            ? `${viewportHeight - 64}px`
+            : "calc(100vh - 64px)",
+        }}
+      >
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-4">
             {nameText}
