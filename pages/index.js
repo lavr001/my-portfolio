@@ -14,7 +14,7 @@ const Home = () => {
     const myName = "ROMAN";
     const title = "Design Technologist";
 
-    const typingSpeed = 0.15; // seconds per character
+    const typingSpeed = 0.15;
 
     const masterTimeline = gsap.timeline();
 
