@@ -94,7 +94,7 @@ const About = () => {
     <>
       <Navbar />
       <main
-        className="overflow-y-auto bg-black text-white p-12 relative top-[64px] [padding-bottom:env(safe-area-inset-bottom)]"
+        className="overflow-y-auto bg-black text-white p-12 relative top-[64px]"
         style={{
           height: viewportHeight
             ? `${viewportHeight - 64}px`
