@@ -51,23 +51,96 @@ const Projects = () => {
       letters,
       { opacity: 0, x: -50 },
       { opacity: 1, x: 0, duration: 0.6, stagger: 0.1 }
-    ).to(
-      letters,
-      { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
-      "+=0.2"
-    );
+    )
+      .to(
+        letters,
+        { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
+        "+=0.2"
+      )
+      .to(
+        letters,
+        { scale: 1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
+        "+=0.2"
+      );
 
     const sections = rowsContainerRef.current.querySelectorAll(".section");
-    sections.forEach((section) => {
-      const direction = section.getAttribute("data-direction");
+    const listeners = [];
+
+    sections.forEach((sectionEl) => {
+      const direction = sectionEl.getAttribute("data-direction");
       const fromX = direction === "left" ? -50 : 50;
       tl.fromTo(
-        section,
+        sectionEl,
         { opacity: 0, x: fromX },
         { opacity: 1, x: 0, duration: 0.6 },
         ">0.1"
       );
+
+      gsap.set(sectionEl, {
+        transformPerspective: 600,
+        transformStyle: "preserve-3d",
+      });
+      const maxRotation = 8;
+
+      const handleMouseMove = (e) => {
+        const rect = sectionEl.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        const rotateX = (y / (rect.height / 2)) * -maxRotation;
+        const rotateY = (x / (rect.width / 2)) * maxRotation;
+
+        gsap.to(sectionEl, {
+          rotationX: rotateX,
+          rotationY: rotateY,
+          duration: 0.2,
+          ease: "power1.out",
+        });
+      };
+
+      const handleMouseEnter = () => {
+        gsap.to(sectionEl, {
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      };
+
+      const handleMouseLeave = () => {
+        gsap.to(sectionEl, {
+          rotationX: 0,
+          rotationY: 0,
+          duration: 0.4,
+          ease: "elastic.out(1, 0.75)",
+        });
+      };
+
+      sectionEl.addEventListener("mousemove", handleMouseMove);
+      sectionEl.addEventListener("mouseenter", handleMouseEnter);
+      sectionEl.addEventListener("mouseleave", handleMouseLeave);
+
+      listeners.push({
+        el: sectionEl,
+        type: "mousemove",
+        handler: handleMouseMove,
+      });
+      listeners.push({
+        el: sectionEl,
+        type: "mouseenter",
+        handler: handleMouseEnter,
+      });
+      listeners.push({
+        el: sectionEl,
+        type: "mouseleave",
+        handler: handleMouseLeave,
+      });
     });
+
+    return () => {
+      listeners.forEach((listener) => {
+        listener.el.removeEventListener(listener.type, listener.handler);
+      });
+      sections.forEach((sectionEl) => gsap.killTweensOf(sectionEl));
+    };
   }, []);
 
   const splitWord = (word) =>
@@ -96,8 +169,11 @@ const Projects = () => {
             {projectSections.map((section, idx) => (
               <div
                 key={idx}
-                className="section border-2 border-white rounded-[8px] p-4"
+                className="section border-2 border-white rounded-[8px] p-4 cursor-pointer"
                 data-direction={section.direction}
+                onClick={() =>
+                  window.open(section.link, "_blank", "noopener,noreferrer")
+                }
               >
                 <h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
                 <p className="text-gray-300 text-lg md:text-xl">
@@ -105,17 +181,11 @@ const Projects = () => {
                 </p>
                 {section.icon && (
                   <div className="flex justify-center mt-4">
-                    <a
-                      href={section.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img
-                        src={section.icon}
-                        alt={`${section.title} icon`}
-                        className="h-10 w-10"
-                      />
-                    </a>
+                    <img
+                      src={section.icon}
+                      alt={`${section.title} icon`}
+                      className="h-10 w-10"
+                    />
                   </div>
                 )}
               </div>

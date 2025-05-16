@@ -24,7 +24,7 @@ const Contact = () => {
 
   useEffect(() => {
     const letters = headingRef.current.querySelectorAll(".letter");
-    const logoItems = logosRef.current.children;
+    const logoLinkElements = logosRef.current.children;
     const emailEl = emailRef.current;
     const finalEmail = "lavr001@gmail.com";
 
@@ -53,9 +53,9 @@ const Contact = () => {
       "+=0.2"
     );
 
-    for (let i = 0; i < logoItems.length; i++) {
+    for (let i = 0; i < logoLinkElements.length; i++) {
       tl.fromTo(
-        logoItems[i],
+        logoLinkElements[i],
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.6 }
       );
@@ -79,6 +79,64 @@ const Contact = () => {
       },
       "+=0.3"
     );
+
+    const iconHoverListeners = [];
+    Array.from(logoLinkElements).forEach((linkElement) => {
+      const iconImage = linkElement.querySelector("img");
+      const iconText = linkElement.querySelector("p");
+
+      const handleMouseEnter = () => {
+        gsap.to(iconImage, {
+          scale: 1.15,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+        gsap.to(iconText, {
+          scale: 1.05,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      };
+
+      const handleMouseLeave = () => {
+        gsap.to(iconImage, {
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+        gsap.to(iconText, {
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      };
+
+      linkElement.addEventListener("mouseenter", handleMouseEnter);
+      linkElement.addEventListener("mouseleave", handleMouseLeave);
+
+      iconHoverListeners.push({
+        el: linkElement,
+        type: "mouseenter",
+        handler: handleMouseEnter,
+      });
+      iconHoverListeners.push({
+        el: linkElement,
+        type: "mouseleave",
+        handler: handleMouseLeave,
+      });
+    });
+
+    return () => {
+      iconHoverListeners.forEach((listener) => {
+        listener.el.removeEventListener(listener.type, listener.handler);
+      });
+      Array.from(logoLinkElements).forEach((linkElement) => {
+        const iconImage = linkElement.querySelector("img");
+        const iconText = linkElement.querySelector("p");
+        if (iconImage) gsap.killTweensOf(iconImage);
+        if (iconText) gsap.killTweensOf(iconText);
+      });
+    };
   }, []);
 
   const splitWord = (word) =>
