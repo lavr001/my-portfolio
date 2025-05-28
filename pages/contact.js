@@ -19,14 +19,16 @@ const contactData = [
 const Contact = () => {
   const headingRef = useRef(null);
   const logosRef = useRef(null);
-  const emailRef = useRef(null);
+  const emailTextRef = useRef(null);
   const viewportHeight = useVisualViewportHeight();
+  const finalEmail = "lavr001@gmail.com";
 
   useEffect(() => {
     const letters = headingRef.current.querySelectorAll(".letter");
-    const logoLinkElements = logosRef.current.children;
-    const emailEl = emailRef.current;
-    const finalEmail = "lavr001@gmail.com";
+    const logoLinkElements = gsap.utils.toArray(
+      logosRef.current.querySelectorAll("li > a")
+    );
+    const emailEl = emailTextRef.current;
 
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -53,35 +55,39 @@ const Contact = () => {
       "+=0.2"
     );
 
-    for (let i = 0; i < logoLinkElements.length; i++) {
+    if (logoLinkElements.length > 0) {
       tl.fromTo(
-        logoLinkElements[i],
+        logoLinkElements,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6 }
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.6 } // Changed stagger to 0.6 and removed position parameter
       );
     }
 
-    emailEl.innerHTML = finalEmail
-      .split("")
-      .map((char) => `<span class="inline-block email-letter">${char}</span>`)
-      .join("");
-    const emailLetters = emailEl.querySelectorAll(".email-letter");
-    tl.fromTo(
-      emailLetters,
-      { opacity: 0, scale: 0, y: -20 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-        stagger: 0.1,
-      },
-      "+=0.3"
-    );
+    if (emailEl) {
+      emailEl.innerHTML = finalEmail
+        .split("")
+        .map((char) => `<span class="inline-block email-letter">${char}</span>`)
+        .join("");
+      const emailLetters = emailEl.querySelectorAll(".email-letter");
+      if (emailLetters.length > 0) {
+        tl.fromTo(
+          emailLetters,
+          { opacity: 0, scale: 0, y: -20 },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+            stagger: 0.1,
+          },
+          ">0.2"
+        );
+      }
+    }
 
     const iconHoverListeners = [];
-    Array.from(logoLinkElements).forEach((linkElement) => {
+    logoLinkElements.forEach((linkElement) => {
       const iconImage = linkElement.querySelector("img");
       const iconText = linkElement.querySelector("p");
 
@@ -130,14 +136,23 @@ const Contact = () => {
       iconHoverListeners.forEach((listener) => {
         listener.el.removeEventListener(listener.type, listener.handler);
       });
-      Array.from(logoLinkElements).forEach((linkElement) => {
+      logoLinkElements.forEach((linkElement) => {
         const iconImage = linkElement.querySelector("img");
         const iconText = linkElement.querySelector("p");
         if (iconImage) gsap.killTweensOf(iconImage);
         if (iconText) gsap.killTweensOf(iconText);
       });
+      if (emailEl) {
+        const emailLetters = emailEl.querySelectorAll(".email-letter");
+        if (emailLetters.length > 0) {
+          gsap.killTweensOf(emailLetters);
+        }
+      }
+      if (letters.length > 0) {
+        gsap.killTweensOf(letters);
+      }
     };
-  }, []);
+  }, [finalEmail]);
 
   const splitWord = (word) =>
     word.split("").map((char, index) => (
@@ -161,28 +176,33 @@ const Contact = () => {
           <h1 className="text-4xl font-bold mb-12 text-center" ref={headingRef}>
             {splitWord("Contact")}
           </h1>
-          <div ref={logosRef} className="flex space-x-8">
+          <ul ref={logosRef} className="flex space-x-8 list-none p-0 m-0">
             {contactData.map((contact) => (
-              <a
-                key={contact.name}
-                href={contact.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center"
-              >
-                <img
-                  src={contact.src}
-                  alt={`${contact.name} logo`}
-                  className="w-20 h-20 object-contain mb-2"
-                />
-                <p className="text-lg font-medium">{contact.name}</p>
-              </a>
+              <li key={contact.name}>
+                <a
+                  href={contact.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center"
+                  aria-label={`Visit my ${contact.name} profile`}
+                >
+                  <img
+                    src={contact.src}
+                    alt={`${contact.name} logo`}
+                    className="w-20 h-20 object-contain mb-2"
+                  />
+                  <p className="text-lg font-medium">{contact.name}</p>
+                </a>
+              </li>
             ))}
-          </div>
-          <p
-            ref={emailRef}
-            className="text-2xl font-mono mt-12 text-center"
-          ></p>
+          </ul>
+          <a
+            href={`mailto:${finalEmail}`}
+            className="text-2xl font-mono mt-12 text-center block hover:underline"
+            aria-label={`Email ${finalEmail}`}
+          >
+            <span ref={emailTextRef} className="inline-block"></span>
+          </a>
         </div>
       </main>
     </>
