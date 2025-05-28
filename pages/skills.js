@@ -119,18 +119,18 @@ const Skills = () => {
           <h1 className="text-4xl font-bold mb-12 text-center" ref={headingRef}>
             {splitWord("Skills")}
           </h1>
-          <div ref={logosRef} className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <ul ref={logosRef} className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             {skillsData.map((skill) => (
-              <div key={skill.name} className="flex flex-col items-center">
+              <li key={skill.name} className="flex flex-col items-center">
                 <img
                   src={skill.src}
                   alt={`${skill.name} logo`}
                   className="w-20 h-20 object-contain mb-2"
                 />
                 <p className="text-lg font-medium">{skill.name}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </main>
     </>

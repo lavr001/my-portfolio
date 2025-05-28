@@ -51,17 +51,11 @@ const Projects = () => {
       letters,
       { opacity: 0, x: -50 },
       { opacity: 1, x: 0, duration: 0.6, stagger: 0.1 }
-    )
-      .to(
-        letters,
-        { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
-        "+=0.2"
-      )
-      .to(
-        letters,
-        { scale: 1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
-        "+=0.2"
-      );
+    ).to(
+      letters,
+      { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.05 },
+      "+=0.2"
+    );
 
     const sections = rowsContainerRef.current.querySelectorAll(".section");
     const listeners = [];
@@ -72,8 +66,7 @@ const Projects = () => {
       tl.fromTo(
         sectionEl,
         { opacity: 0, x: fromX },
-        { opacity: 1, x: 0, duration: 0.6 },
-        ">0.1"
+        { opacity: 1, x: 0, duration: 0.6 }
       );
 
       gsap.set(sectionEl, {
@@ -167,15 +160,21 @@ const Projects = () => {
         <div ref={rowsContainerRef} className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projectSections.map((section, idx) => (
-              <div
+              <article
                 key={idx}
                 className="section border-2 border-white rounded-[8px] p-4 cursor-pointer"
                 data-direction={section.direction}
                 onClick={() =>
                   window.open(section.link, "_blank", "noopener,noreferrer")
                 }
+                aria-labelledby={`project-title-${idx}`}
               >
-                <h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
+                <h2
+                  className="text-2xl font-semibold mb-2"
+                  id={`project-title-${idx}`}
+                >
+                  {section.title}
+                </h2>
                 <p className="text-gray-300 text-lg md:text-xl">
                   {section.description}
                 </p>
@@ -188,7 +187,7 @@ const Projects = () => {
                     />
                   </div>
                 )}
-              </div>
+              </article>
             ))}
           </div>
         </div>

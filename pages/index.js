@@ -63,11 +63,15 @@ const Home = () => {
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-4">
             {nameText}
-            {isTypingName && <span className="cursor"></span>}
+            {isTypingName && (
+              <span className="cursor" aria-hidden="true"></span>
+            )}
           </h1>
           <h2 className="text-4xl font-medium">
             {titleText}
-            {isTypingTitle && <span className="cursor"></span>}
+            {isTypingTitle && (
+              <span className="cursor" aria-hidden="true"></span>
+            )}
           </h2>
         </div>
       </main>

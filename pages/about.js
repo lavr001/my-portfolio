@@ -107,12 +107,18 @@ const About = () => {
         <div ref={rowsContainerRef} className="max-w-5xl mx-auto space-y-8">
           <div className="row grid grid-cols-1 md:grid-cols-2 gap-8">
             {row1.map((section, index) => (
-              <div
+              <section
                 key={index}
                 className="section border-2 border-white rounded-[8px] p-4"
                 data-direction={section.direction}
+                aria-labelledby={`about-section-title-${index}`}
               >
-                <h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
+                <h2
+                  className="text-2xl font-semibold mb-2"
+                  id={`about-section-title-${index}`}
+                >
+                  {section.title}
+                </h2>
                 <ul className="list-disc list-inside space-y-2 mx-auto">
                   {section.bullets.map((bullet, idx) => (
                     <li key={idx} className="text-gray-300 text-lg md:text-xl">
@@ -120,17 +126,23 @@ const About = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </section>
             ))}
           </div>
           <div className="row grid grid-cols-1 md:grid-cols-2 gap-8">
             {row2.map((section, index) => (
-              <div
-                key={index}
+              <section
+                key={index + row1.length}
                 className="section border-2 border-white rounded-[8px] p-4"
                 data-direction={section.direction}
+                aria-labelledby={`about-section-title-${index + row1.length}`}
               >
-                <h2 className="text-2xl font-semibold mb-2">{section.title}</h2>
+                <h2
+                  className="text-2xl font-semibold mb-2"
+                  id={`about-section-title-${index + row1.length}`}
+                >
+                  {section.title}
+                </h2>
                 <ul className="list-disc list-inside space-y-2 mx-auto">
                   {section.bullets.map((bullet, idx) => (
                     <li key={idx} className="text-gray-300 text-lg md:text-xl">
@@ -138,7 +150,7 @@ const About = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </section>
             ))}
           </div>
         </div>
