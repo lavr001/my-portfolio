@@ -58,7 +58,6 @@ const Projects = () => {
     );
 
     const sections = rowsContainerRef.current.querySelectorAll(".section");
-    const listeners = [];
 
     sections.forEach((sectionEl) => {
       const direction = sectionEl.getAttribute("data-direction");
@@ -67,45 +66,8 @@ const Projects = () => {
         sectionEl,
         { opacity: 0, x: fromX },
         { opacity: 1, x: 0, duration: 0.6 }
-      );
-
-      const handleMouseEnter = () => {
-        gsap.to(sectionEl, {
-          scale: 1.05,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      };
-
-      const handleMouseLeave = () => {
-        gsap.to(sectionEl, {
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      };
-
-      sectionEl.addEventListener("mouseenter", handleMouseEnter);
-      sectionEl.addEventListener("mouseleave", handleMouseLeave);
-
-      listeners.push({
-        el: sectionEl,
-        type: "mouseenter",
-        handler: handleMouseEnter,
-      });
-      listeners.push({
-        el: sectionEl,
-        type: "mouseleave",
-        handler: handleMouseLeave,
-      });
+      ).set(sectionEl, { clearProps: "transform" });
     });
-
-    return () => {
-      listeners.forEach((listener) => {
-        listener.el.removeEventListener(listener.type, listener.handler);
-      });
-      sections.forEach((sectionEl) => gsap.killTweensOf(sectionEl));
-    };
   }, []);
 
   const splitWord = (word) =>
@@ -134,7 +96,7 @@ const Projects = () => {
             {projectSections.map((section, idx) => (
               <article
                 key={idx}
-                className="section border-2 border-white rounded-[8px] p-4 cursor-pointer"
+                className="section border-2 border-white rounded-[8px] p-4 cursor-pointer hover:scale-105 transition-transform duration-300 ease-out origin-center"
                 data-direction={section.direction}
                 onClick={() =>
                   window.open(section.link, "_blank", "noopener,noreferrer")

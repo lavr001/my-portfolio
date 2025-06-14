@@ -60,7 +60,7 @@ const Contact = () => {
         logoLinkElements,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.6, stagger: 0.6 }
-      );
+      ).set(logoLinkElements, { clearProps: "transform" });
     }
 
     if (emailEl) {
@@ -86,46 +86,7 @@ const Contact = () => {
       }
     }
 
-    const iconHoverListeners = [];
-    logoLinkElements.forEach((linkElement) => {
-      const handleMouseEnter = () => {
-        gsap.to(linkElement, {
-          scale: 1.05,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      };
-
-      const handleMouseLeave = () => {
-        gsap.to(linkElement, {
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      };
-
-      linkElement.addEventListener("mouseenter", handleMouseEnter);
-      linkElement.addEventListener("mouseleave", handleMouseLeave);
-
-      iconHoverListeners.push({
-        el: linkElement,
-        type: "mouseenter",
-        handler: handleMouseEnter,
-      });
-      iconHoverListeners.push({
-        el: linkElement,
-        type: "mouseleave",
-        handler: handleMouseLeave,
-      });
-    });
-
     return () => {
-      iconHoverListeners.forEach((listener) => {
-        listener.el.removeEventListener(listener.type, listener.handler);
-      });
-      logoLinkElements.forEach((linkElement) => {
-        gsap.killTweensOf(linkElement);
-      });
       if (emailEl) {
         const emailLetters = emailEl.querySelectorAll(".email-letter");
         if (emailLetters.length > 0) {
@@ -167,7 +128,7 @@ const Contact = () => {
                   href={contact.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col items-center"
+                  className="flex flex-col items-center hover:scale-105 transition-transform duration-300 ease-out origin-center"
                   aria-label={`Visit my ${contact.name} profile`}
                 >
                   <img
