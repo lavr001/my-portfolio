@@ -69,30 +69,9 @@ const Projects = () => {
         { opacity: 1, x: 0, duration: 0.6 }
       );
 
-      gsap.set(sectionEl, {
-        transformPerspective: 600,
-        transformStyle: "preserve-3d",
-      });
-      const maxRotation = 8;
-
-      const handleMouseMove = (e) => {
-        const rect = sectionEl.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        const rotateX = (y / (rect.height / 2)) * -maxRotation;
-        const rotateY = (x / (rect.width / 2)) * maxRotation;
-
-        gsap.to(sectionEl, {
-          rotationX: rotateX,
-          rotationY: rotateY,
-          duration: 0.2,
-          ease: "power1.out",
-        });
-      };
-
       const handleMouseEnter = () => {
         gsap.to(sectionEl, {
+          scale: 1.05,
           duration: 0.3,
           ease: "power2.out",
         });
@@ -100,22 +79,15 @@ const Projects = () => {
 
       const handleMouseLeave = () => {
         gsap.to(sectionEl, {
-          rotationX: 0,
-          rotationY: 0,
-          duration: 0.4,
-          ease: "elastic.out(1, 0.75)",
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out",
         });
       };
 
-      sectionEl.addEventListener("mousemove", handleMouseMove);
       sectionEl.addEventListener("mouseenter", handleMouseEnter);
       sectionEl.addEventListener("mouseleave", handleMouseLeave);
 
-      listeners.push({
-        el: sectionEl,
-        type: "mousemove",
-        handler: handleMouseMove,
-      });
       listeners.push({
         el: sectionEl,
         type: "mouseenter",
