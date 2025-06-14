@@ -59,7 +59,7 @@ const Contact = () => {
       tl.fromTo(
         logoLinkElements,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.6 } // Changed stagger to 0.6 and removed position parameter
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.6 }
       );
     }
 
@@ -88,16 +88,8 @@ const Contact = () => {
 
     const iconHoverListeners = [];
     logoLinkElements.forEach((linkElement) => {
-      const iconImage = linkElement.querySelector("img");
-      const iconText = linkElement.querySelector("p");
-
       const handleMouseEnter = () => {
-        gsap.to(iconImage, {
-          scale: 1.15,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-        gsap.to(iconText, {
+        gsap.to(linkElement, {
           scale: 1.05,
           duration: 0.3,
           ease: "power2.out",
@@ -105,12 +97,7 @@ const Contact = () => {
       };
 
       const handleMouseLeave = () => {
-        gsap.to(iconImage, {
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-        gsap.to(iconText, {
+        gsap.to(linkElement, {
           scale: 1,
           duration: 0.3,
           ease: "power2.out",
@@ -137,10 +124,7 @@ const Contact = () => {
         listener.el.removeEventListener(listener.type, listener.handler);
       });
       logoLinkElements.forEach((linkElement) => {
-        const iconImage = linkElement.querySelector("img");
-        const iconText = linkElement.querySelector("p");
-        if (iconImage) gsap.killTweensOf(iconImage);
-        if (iconText) gsap.killTweensOf(iconText);
+        gsap.killTweensOf(linkElement);
       });
       if (emailEl) {
         const emailLetters = emailEl.querySelectorAll(".email-letter");
